@@ -1,0 +1,69 @@
+src: https://www.youtube.com/watch?v=feDyXKQkSj0
+
+put this head in solution.js file: 
+
+process.stdin.resume();
+process.stdin.setEncoding("utf-8");
+let standardInputString = "";
+let currentLine = 0;
+
+function readLine() {
+  return standardInputString[currentLine++];
+}
+
+process.stdin.on("data", (rawData) => {
+  standardInputString += rawData;
+});
+
+process.stdin.on("end", (_) => {
+  standardInputString = standardInputString
+    .trim()
+    .split("\n")
+    .map((line) => line.trim());
+
+  main();
+});
+
+function main() {
+  const name = readLine();
+  console.log(name);
+}
+
+---------------------------------------------------------------------------
+create input.txt
+
+node solutions.js < input.txt > output.txt
+
+---------------------------------------------
+.vscode/tasks.json:
+
+
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+        "label": "Node Js Problem Solving",
+        "type": "shell",
+        "command": "node",
+        "args": [
+            "${file}",
+            "<",
+            "input.txt",
+            ">",
+            "output.txt"
+        ],
+        "problemMatcher": [],
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
+    }
+]
+}
+
+
+---------------------------------------------
+
+to run task: ctrl  + shift  + B

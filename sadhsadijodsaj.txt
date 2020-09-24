@@ -1,0 +1,54 @@
+
+function main() {
+  let [n, q] = readLine()
+    .split(" ")
+    .map((el) => parseInt(el));
+
+  let piles = readLine()
+    .split(" ")
+    .map((el) => parseInt(el));
+
+  function minMoves(piles) {
+    piles = piles.sort((a, b) => a - b);
+
+    // divide elements in two groups:
+    let low = piles[0];
+    let high = piles[piles.length - 1];
+    pilesMap = piles.map((el) => {
+      return {
+        pos: el,
+        hl: el - piles[0] > piles[piles.length - 1] - el ? "h" : "l",
+      };
+    });
+    console.log(pilesMap);
+    // return the sum of difference within each group (because max 2 stacks are allowed)
+    let diffLow =
+      pilesMap
+        .filter((el) => el.hl == "l")
+        .reduce((acc, cur) => Math.max(acc, cur.pos), low) - low;
+
+    let diffHigh =
+      high -
+      pilesMap
+        .filter((el) => el.hl == "h")
+        .reduce((acc, cur) => Math.min(acc, cur.pos), high);
+    return (diffHigh || 0) + (diffLow || 0);
+  }
+
+  console.log(minMoves(piles));
+  for (let i = 0; i < q; i++) {
+    let queryline = readLine()
+      .split(" ")
+      .map((el) => parseInt(el));
+    let query = { type: queryline[0], pos: queryline[1] };
+    if (query.type === 0) {
+      // remove pile at pos
+      piles = piles.filter((e) => e != query.pos);
+    } else if (query.type === 1) {
+      // add a pile at pos
+      piles.push(query.pos);
+    }
+
+    console.log(minMoves(piles));
+  }
+}
